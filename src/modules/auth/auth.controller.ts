@@ -9,49 +9,35 @@ import {
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { AuthService } from '@/modules/auth/auth.service';
-import { ConfigService } from '@nestjs/config';
 import { JwtGuard } from '@/modules/auth/guard/jwt.guard';
 import { CreateUserDto } from '@/modules/user/user.dto';
-import { CookiesSettings } from '@/utils/cookies-settings';
+import { LoginDto } from '@/modules/auth/auth.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly configService: ConfigService,
-    private readonly cookiesSettings: CookiesSettings,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('register')
   @HttpCode(201)
-  async register(
+  register(
     @Body()
     body: CreateUserDto,
-    @Res({ passthrough: true }) res: Response,
   ) {
-    const data = await this.authService.register(body);
-    this.cookiesSettings.initRefreshCookie(res.cookie, data.refresh_token);
-    return data;
+    return this.authService.register(body);
   }
 
   @Post('login')
   @HttpCode(200)
-  async login(@Body() body, @Res({ passthrough: true }) res: Response) {
-    const data = await this.authService.login(body);
-    this.cookiesSettings.initRefreshCookie(res.cookie, data.refresh_token);
-    return data;
+  login(@Body() body: LoginDto) {
+    return this.authService.login(body);
   }
 
   @Post('refresh')
   @HttpCode(200)
-  async refresh(
-    @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  refresh(@Req() req: Request) {
+    console.log(req.headers.cookies);
     const { refresh_token } = req.cookies;
-    const data = await this.authService.refresh({ refresh_token });
-    this.cookiesSettings.initRefreshCookie(res.cookie, data.refresh_token);
-    return data;
+    return this.authService.refresh({ refresh_token });
   }
 
   @UseGuards(JwtGuard)

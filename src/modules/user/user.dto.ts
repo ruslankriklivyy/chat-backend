@@ -1,14 +1,4 @@
-import {
-  IsBoolean,
-  IsDefined,
-  IsEmail,
-  IsNotEmpty,
-  IsNotEmptyObject,
-  IsObject,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
-import { Transform, Type } from 'class-transformer';
+import { IsBoolean, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()

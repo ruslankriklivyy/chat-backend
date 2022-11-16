@@ -8,17 +8,17 @@ import { FileService } from '@/modules/file/file.service';
 import { UserService } from '@/modules/user/user.service';
 import { JwtModule } from '@nestjs/jwt';
 import { authProviders } from '@/modules/auth/auth.providers';
-import { CookiesSettings } from '@/utils/cookies-settings';
+import { JwtStrategy } from '@/modules/auth/strategy/jwt.strategy';
 
 @Module({
   imports: [JwtModule.register({}), DatabaseModule],
   providers: [
     ...authProviders,
+    JwtStrategy,
     AuthService,
     TokenService,
     FileService,
     UserService,
-    CookiesSettings,
   ],
   controllers: [AuthController],
 })

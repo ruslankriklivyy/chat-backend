@@ -16,7 +16,16 @@ export class UserService {
   ) {}
 
   getAll() {
-    return this.userRepository.find({});
+    return this.userRepository.find({
+      select: {
+        id: true,
+        email: true,
+        avatar_url: true,
+        is_online: true,
+        full_name: true,
+        rooms_ids: true,
+      },
+    });
   }
 
   getOne(payload: Record<string, any>) {

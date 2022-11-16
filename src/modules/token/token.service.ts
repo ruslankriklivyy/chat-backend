@@ -18,14 +18,20 @@ export class TokenService {
   ) {}
 
   async generateTokens(payload: Omit<IUser, 'id' | 'avatar_url' | 'room_ids'>) {
-    const access_token = await this.jwt.signAsync(payload, {
-      expiresIn: this.configService.get('JWT_ACCESS_TOKEN_EXPIRES_IN'),
-      secret: this.configService.get('JWT_ACCESS_SECRET'),
-    });
-    const refresh_token = await this.jwt.signAsync(payload, {
-      expiresIn: this.configService.get('JWT_REFRESH_TOKEN_EXPIRES_IN'),
-      secret: this.configService.get('JWT_REFRESH_SECRET'),
-    });
+    const access_token = await this.jwt.signAsync(
+      { ...payload },
+      {
+        expiresIn: this.configService.get('JWT_ACCESS_TOKEN_EXPIRES_IN'),
+        secret: this.configService.get('JWT_ACCESS_SECRET'),
+      },
+    );
+    const refresh_token = await this.jwt.signAsync(
+      { ...payload },
+      {
+        expiresIn: this.configService.get('JWT_REFRESH_TOKEN_EXPIRES_IN'),
+        secret: this.configService.get('JWT_REFRESH_SECRET'),
+      },
+    );
 
     return {
       accessToken: access_token,

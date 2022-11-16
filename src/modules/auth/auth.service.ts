@@ -61,7 +61,9 @@ export class AuthService {
 
   async login(payload: ILoginPayload) {
     const { email, password } = payload;
-    const user = await this.userRepository.findOneBy({ email });
+    const user = await this.userRepository.findOneBy({
+      email: Equal(email),
+    });
 
     if (!user) {
       throw new HttpException(
