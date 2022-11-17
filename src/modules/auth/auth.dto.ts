@@ -7,3 +7,13 @@ export class LoginDto {
   @IsString()
   password: string;
 }
+
+export class RefreshDto {
+  @IsString()
+  refresh_token: string;
+}
+
+export class LogoutDto {
+  @IsString()
+  refresh_token: string;
+}

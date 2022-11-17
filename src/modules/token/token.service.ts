@@ -48,7 +48,7 @@ export class TokenService {
       return this.tokenRepository.update(token.id, token);
     }
 
-    return this.tokenRepository.create({
+    return this.tokenRepository.save({
       user_id: userId,
       refresh_token: refreshToken,
     });

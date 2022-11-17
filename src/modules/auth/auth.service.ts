@@ -52,6 +52,8 @@ export class AuthService {
       ...userPayload,
     });
 
+    await this.tokenService.createOne({ userId: newUser.id, refreshToken });
+
     return {
       user: newUser,
       access_token: accessToken,
@@ -89,6 +91,8 @@ export class AuthService {
 
     const { accessToken, refreshToken } =
       await this.tokenService.generateTokens(user);
+
+    await this.tokenService.createOne({ userId: user.id, refreshToken });
 
     return {
       user,
