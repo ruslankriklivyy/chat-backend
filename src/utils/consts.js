@@ -1,0 +1,19 @@
+"use strict";
+exports.__esModule = true;
+exports.REFRESH_TOKEN = exports.FILES = exports.AUTHORIZATION = exports.REPOSITORIES = void 0;
+var REPOSITORIES;
+(function (REPOSITORIES) {
+    REPOSITORIES["USER_REPOSITORY"] = "USER_REPOSITORY";
+    REPOSITORIES["TOKEN_REPOSITORY"] = "TOKEN_REPOSITORY";
+    REPOSITORIES["FILE_REPOSITORY"] = "FILE_REPOSITORY";
+    REPOSITORIES["ROOM_REPOSITORY"] = "ROOM_REPOSITORY";
+})(REPOSITORIES = exports.REPOSITORIES || (exports.REPOSITORIES = {}));
+var AUTHORIZATION;
+(function (AUTHORIZATION) {
+    AUTHORIZATION[AUTHORIZATION["SALT_ROUNDS"] = 15] = "SALT_ROUNDS";
+})(AUTHORIZATION = exports.AUTHORIZATION || (exports.AUTHORIZATION = {}));
+var FILES;
+(function (FILES) {
+    FILES["FILES_PATH"] = "files/";
+})(FILES = exports.FILES || (exports.FILES = {}));
+exports.REFRESH_TOKEN = 'refresh_token';
