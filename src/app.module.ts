@@ -8,6 +8,7 @@ import { AuthModule } from '@/modules/auth/auth.module';
 import { TokenModule } from '@/modules/token/token.module';
 import { FileModule } from '@/modules/file/file.module';
 import { RoomModule } from './modules/room/room.module';
+import { MessageModule } from './modules/message/message.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { RoomModule } from './modules/room/room.module';
     TokenModule,
     FileModule,
     RoomModule,
+    MessageModule,
   ],
   controllers: [],
   providers: [],

@@ -1,5 +1,13 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { User } from '@/modules/user/user.entity';
+import { Message } from '@/modules/message/message.entity';
 
 @Entity()
 export class Room {
@@ -9,7 +17,11 @@ export class Room {
   @Column()
   name: string;
 
+  @OneToMany(() => Message, (message) => message.room)
+  @JoinColumn({ name: 'messages', referencedColumnName: 'id' })
+  messages: Message[];
+
   @ManyToMany(() => User)
-  @Column('int', { array: true })
-  users_ids: number[];
+  @JoinColumn({ name: 'users', referencedColumnName: 'id' })
+  users: User[];
 }

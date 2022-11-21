@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 
 import { REPOSITORIES } from '@/utils/consts';
 import { Token } from '@/modules/token/token.entity';
@@ -41,7 +41,7 @@ export class TokenService {
 
   async createOne(payload: CreateOneToken) {
     const { userId, refreshToken } = payload;
-    const token = await this.tokenRepository.findOneBy({ user_id: userId });
+    const token = await this.tokenRepository.findOneBy({ user: Equal(userId) });
 
     if (token) {
       token.refresh_token = refreshToken;

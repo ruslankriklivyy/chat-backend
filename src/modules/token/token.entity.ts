@@ -1,4 +1,10 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  JoinColumn,
+} from 'typeorm';
 import { User } from '@/modules/user/user.entity';
 
 @Entity()
@@ -7,8 +13,8 @@ export class Token {
   id: number;
 
   @OneToOne(() => User)
-  @Column()
-  user_id: number;
+  @JoinColumn({ name: 'user', referencedColumnName: 'id' })
+  user: User;
 
   @Column()
   refresh_token: string;

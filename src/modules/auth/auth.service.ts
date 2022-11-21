@@ -102,16 +102,35 @@ export class AuthService {
   }
 
   async refresh(payload: IRefreshPayload) {
-    const { refresh_token } = payload;
-    const decodedData = await this.tokenService.validateRefreshToken(
-      refresh_token,
-    );
-    const token = await this.tokenService.findRefreshToken(refresh_token);
-    const user = await this.userRepository.findOneBy({
-      email: decodedData.email,
-    });
+    try {
+      const { refresh_token } = payload;
+      const decodedData = await this.tokenService.validateRefreshToken(
+        refresh_token,
+      );
+      const token = await this.tokenService.findRefreshToken(refresh_token);
+      const user = await this.userRepository.findOneBy({
+        email: decodedData.email,
+      });
 
-    if (!decodedData || !token || !user) {
+      if (!decodedData || !token || !user) {
+        throw new HttpException(
+          {
+            status: HttpStatus.UNAUTHORIZED,
+            message: 'Unauthorized',
+          },
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+
+      const { accessToken, refreshToken } =
+        await this.tokenService.generateTokens(user);
+
+      return {
+        user,
+        access_token: accessToken,
+        refresh_token: refreshToken,
+      };
+    } catch (e) {
       throw new HttpException(
         {
           status: HttpStatus.UNAUTHORIZED,
@@ -120,15 +139,6 @@ export class AuthService {
         HttpStatus.UNAUTHORIZED,
       );
     }
-
-    const { accessToken, refreshToken } =
-      await this.tokenService.generateTokens(user);
-
-    return {
-      user,
-      access_token: accessToken,
-      refresh_token: refreshToken,
-    };
   }
 
   logout(payload: ILogoutPayload) {

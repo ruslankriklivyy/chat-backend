@@ -23,7 +23,7 @@ export class UserService {
         avatar_url: true,
         is_online: true,
         full_name: true,
-        rooms_ids: true,
+        rooms: true,
       },
     });
   }

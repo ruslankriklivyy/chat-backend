@@ -1,12 +1,21 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Room } from '@/modules/room/room.entity';
+import { Message } from '@/modules/message/message.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', unique: true })
+  @Column({ unique: true })
   email: string;
 
   @Column({ nullable: true })
@@ -21,7 +30,15 @@ export class User {
   @Column()
   is_online: boolean;
 
+  @OneToMany(() => Message, (message) => message.user)
+  @JoinColumn({ name: 'messages', referencedColumnName: 'id' })
+  messages: Message[];
+
   @ManyToMany(() => Room)
-  @Column('int', { array: true, nullable: true })
-  rooms_ids: number[];
+  @JoinTable({
+    name: 'user_rooms',
+    joinColumn: { name: 'user', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'room', referencedColumnName: 'id' },
+  })
+  rooms: Room[];
 }
